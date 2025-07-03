@@ -3,11 +3,11 @@ public:
     int maxDepth(string s) {
         int ans =0;
         int openBracket =0;
-        for(char &ch :s){ 
-            if(ch == ')'){
+        for(int i =0 ; i <s.size() ; i++){ 
+            if(s[i] == ')'){
                 openBracket--;
             }
-            else if(ch== '('){
+            else if(s[i] == '('){
                 openBracket++;
             }
             ans = max(ans , openBracket);
