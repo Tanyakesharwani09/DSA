@@ -20,7 +20,7 @@ public:
     //         return myPow(1/x,abs(n));
 
     //     return (n%2==0 ? myPow(x*x,n/2) : x*myPow(x*x,n/2));
-    // }
+    // } 
         // if(x==0) return x;
         // if(n==0) return 1;
 
@@ -29,20 +29,40 @@ public:
         //     else return (1/x) * pow(myPow(x,n/2), 2);
         // }
         // else return pow(myPow(x,n/2), 2);
-        double ans = 1.0;
-        long long nn = n;
-        if (nn < 0) nn = -1 * nn;
-        while (nn) {
-        if (nn % 2) {
-            ans = ans * x;
-            nn = nn - 1;
+
+        //iterative
+    //     double ans = 1.0;
+    //     long long pow = n;
+    //     if (pow < 0) pow = -1 * pow;
+    //     while (pow) {
+    //     if (pow % 2) {
+    //         ans = ans * x;
+    //         pow = pow - 1;
+    //     }
+    //     else {
+    //         x = x * x;
+    //         pow = pow / 2;
+    //     }
+    // }
+    // if (n < 0) ans = (double)(1.0) / (double)(ans);
+    // return ans;
+
+    if(n == 0)
+            return 1;
+        if(n == 1)
+            return x; 
+        if(n == -1)
+            return 1/x;
+        double halfPower = myPow(x,n/2);
+        double result = halfPower * halfPower;
+
+        if(n%2 != 0)
+        {
+            if(n > 0)
+                result = result * x;
+            else
+                result = result / x;
         }
-        else {
-            x = x * x;
-            nn = nn / 2;
-        }
-    }
-    if (n < 0) ans = (double)(1.0) / (double)(ans);
-    return ans;
+        return result;
     }    
 };
