@@ -31,7 +31,6 @@ public:
 //    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
 //       stack<int>st;
 //       vector<int>v;
-//         int j=0;
 //       for(int i=nums2.size()-1;i>=j;i--){
 //         if(st.size()==0){
 //             v.push_back(-1);
@@ -53,7 +52,14 @@ public:
 //         }
 //         st.push(nums2[i]);
 //     }
-//     reverse(v.begin(),v.end());
+// for(int i = nums2.size()-1; i >= 0; i--){
+//     while(st.size() > 0 && st.top() <= nums2[i]){
+//         st.pop();
+//     }
+//     v.push_back(st.size() == 0 ? -1 : st.top());
+//     st.push(nums2[i]);
+// }
+//     // reverse(v.begin(),v.end());
 //     vector<int>ans;
 //     for(int i=0;i<nums1.size();i++){
 //         for(int j=0;j<nums2.size();j++){
