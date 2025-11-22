@@ -1,47 +1,54 @@
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
-        int ans =0;
-        vector<int>v(26,0);
+        int totalTime = 0;
+        vector<int> freq(26, 0);
 
-        for(char &ch :tasks){
-            v[ch-'A']++;
+        // Count frequency of each task
+        for (int i = 0; i < tasks.size(); i++) {
+            char task = tasks[i];
+            freq[task - 'A']++;
         }
 
-        priority_queue<int>pq;
-        for(int i =0; i<26; i++){
-            if(v[i]>0){
-                pq.push(v[i]);
+        // Priority queue for task frequencies
+        priority_queue<int> pq;
+        for (int i = 0; i < 26; i++) {
+            if (freq[i] > 0) {
+                pq.push(freq[i]);
             }
         }
 
-        while(!pq.empty()){
-            vector<int>temp;
+        // Process tasks
+        while (!pq.empty()) {
 
-            //Doing tasks
-            for(int i=0; i<n+1; i++){
-                if(!pq.empty()){
-                    int freq = pq.top();
+            vector<int> remainingFreq;
+
+            // Execute up to (n+1) tasks in this interval
+            for (int i = 0; i < n + 1; i++) {
+                if (!pq.empty()) {
+                    int currentFreq = pq.top();
                     pq.pop();
-                    freq--;
-                    temp.push_back(freq);
+                    currentFreq--;
+
+                    remainingFreq.push_back(currentFreq);
                 }
             }
 
-            for(int &i:temp){
-                if(i>0){
-                    pq.push(i);
+            // Push remaining counts back into pq
+            for (int i = 0; i < remainingFreq.size(); i++) {
+                if (remainingFreq[i] > 0) {
+                    pq.push(remainingFreq[i]);
                 }
             }
 
-            if(pq.empty()){
-                ans += temp.size();
-            }
-            else{
-                ans += (n+1);
+            // Time calculation
+            if (pq.empty()) {
+                totalTime += remainingFreq.size();
+            } else {
+                totalTime += (n + 1);
             }
         }
-        return ans;
-        
+
+        return totalTime;
     }
 };
