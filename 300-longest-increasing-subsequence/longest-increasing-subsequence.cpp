@@ -69,6 +69,24 @@ public:
         return next[0];
     }
 
+    int solveUsingBS(vector<int>&nums){
+        vector<int>ans;
+        //initial push
+        ans.push_back(nums[0]);
+
+        for(int i =1; i<nums.size(); i++){
+            if(nums[i] > ans.back()){
+                ans.push_back(nums[i]);
+            }
+            else{
+                int index = lower_bound(ans.begin(), ans.end(), nums[i]) - ans.begin();
+                //replace
+                ans[index] = nums[i];
+            }
+        }
+        return ans.size();
+    }
+
     int lengthOfLIS(vector<int>& nums) {
         int prev = -1;
         int curr = 0;
@@ -79,7 +97,8 @@ public:
         // int ans = solveUsingMem(nums , curr , prev , dp);
 
         // int ans = solveUsingTabulation(nums);
-        int ans = solveUsingTabulationSO(nums);
+        // int ans = solveUsingTabulationSO(nums);
+        int ans = solveUsingBS(nums);
         return ans;
     }
 };
