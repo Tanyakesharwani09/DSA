@@ -50,6 +50,25 @@ public:
         return dp[0][0];
     }
 
+    int solveUsingTabulationSO(vector<int>&nums){
+        int n = nums.size();
+        vector<int>curr(n+1 , 0);
+        vector<int>next(n+1, 0);
+
+        for(int curr_index =n-1; curr_index>=0; curr_index--){
+            for(int prev_index = curr_index-1 ; prev_index>=-1 ;  prev_index--){
+                int include =0;
+                if(prev_index == -1 || nums[curr_index] > nums[prev_index]){
+                    include  = 1 + next[curr_index+1];
+                }
+                int exclude = 0 + next[prev_index+1];
+                curr[prev_index+1] = max(include , exclude);
+            }
+            next = curr;
+        }
+        return next[0];
+    }
+
     int lengthOfLIS(vector<int>& nums) {
         int prev = -1;
         int curr = 0;
@@ -59,7 +78,8 @@ public:
         // vector<vector<int>>dp(n+1, vector<int>(n+1 , -1));
         // int ans = solveUsingMem(nums , curr , prev , dp);
 
-        int ans = solveUsingTabulation(nums);
+        // int ans = solveUsingTabulation(nums);
+        int ans = solveUsingTabulationSO(nums);
         return ans;
     }
 };
