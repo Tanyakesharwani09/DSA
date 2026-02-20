@@ -60,6 +60,29 @@ public:
         return dp[0][0];
     }
 
+    bool solveUsingTabSO(vector<int>&nums , int target){
+         int n = nums.size();
+       
+        vector<int>next(target+1, 0);
+        vector<int>curr(target +1 , 0);
+
+        curr[target] =1;
+        next[target] =1;
+
+        for(int index = n-1; index>=0; index--){
+            for(int s= target; s>=0; s--){
+                bool include =0;
+                if(s + nums[index] <= target){
+                    include = next[s + nums[index]];
+                }
+                bool exclude = next[s];
+                curr[s] = include|| exclude;
+            }
+            next = curr;
+        }
+        return next[0];
+    }
+
 
     bool canPartition(vector<int>& nums) {
         int n = nums.size();
@@ -79,7 +102,8 @@ public:
         // bool ans = solveUsingMem(nums , 0 , 0, target , dp);
         // return ans ;
 
-        bool ans = solveUsingTab(nums , target);
+        // bool ans = solveUsingTab(nums , target);
+        bool ans = solveUsingTabSO(nums , target);
         return ans;
     }
 };
