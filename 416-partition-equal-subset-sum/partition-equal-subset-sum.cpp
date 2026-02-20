@@ -40,6 +40,26 @@ public:
 
     }
 
+    bool solveUsingTab(vector<int>&nums , int target){
+         int n = nums.size();
+        vector<vector<int>>dp(n + 1 , vector<int>(target+1 , 0));
+        for(int row =0; row<=n; row++){
+            dp[row][target] =1;
+        }
+
+        for(int index = n-1; index>=0; index--){
+            for(int s= target; s>=0; s--){
+                bool include =0;
+                if(s + nums[index] <= target){
+                    include = dp[index+1][s + nums[index]];
+                }
+                bool exclude = dp[index +1][s];
+                dp[index][s] = include|| exclude;
+            }
+        }
+        return dp[0][0];
+    }
+
 
     bool canPartition(vector<int>& nums) {
         int n = nums.size();
@@ -55,8 +75,11 @@ public:
         int target = totalSum /2;
         // bool ans = solveUsingRec(nums , 0, 0, target);
         // return ans;
-        vector<vector<int>>dp(n+1, vector<int>(target + 1 ,-1));
-        bool ans = solveUsingMem(nums , 0 , 0, target , dp);
-        return ans ;
+        // vector<vector<int>>dp(n+1, vector<int>(target + 1 ,-1));
+        // bool ans = solveUsingMem(nums , 0 , 0, target , dp);
+        // return ans ;
+
+        bool ans = solveUsingTab(nums , target);
+        return ans;
     }
 };
