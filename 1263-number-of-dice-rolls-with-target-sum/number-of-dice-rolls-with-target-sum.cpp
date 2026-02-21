@@ -16,6 +16,7 @@ public:
         }
         return ans;
     }
+
     long long MOD = 1000000007;
     int solveUsingMem(int n , int k , int target,int diceUsed, int currSum,vector<vector<int>>&dp){
         if(diceUsed == n && currSum == target){
@@ -41,14 +42,38 @@ public:
         dp[diceUsed][currSum] = ans;
         return dp[diceUsed][currSum];
     }
+
+    int solveUsingTab(int n , int k, int target){
+        vector<vector<int>>dp(n+1, vector<int>(target+1, 0));
+        dp[n][target] =1;
+
+        for(int dice = n-1; dice >=0; dice--){
+            for(int sum = target; sum>=0; sum--){
+                int ans =0;
+                for(int face  =1; face <=k; face++){
+                    int recAns =0;
+                    if(sum + face <= target){
+                        recAns = dp[dice + 1][sum + face];
+                    }
+                    ans = (ans % MOD + recAns%MOD)%MOD;
+                }
+                dp[dice][sum] = ans;
+            }
+        }
+        return dp[0][0];
+    }
     int numRollsToTarget(int n, int k, int target) {
         // int ans = solveUsingRec(n , k , target);
         // return ans;
-        int diceUsed =0;
-        int currSum =0;
-        vector<vector<int>>dp(n+1 , vector<int>(target +1 , -1));
-        int ans = solveUsingMem(n , k , target,diceUsed, currSum , dp);
-        return ans ;
+
+        // int diceUsed =0;
+        // int currSum =0;
+        // vector<vector<int>>dp(n+1 , vector<int>(target +1 , -1));
+        // int ans = solveUsingMem(n , k , target,diceUsed, currSum , dp);
+        // return ans ;
+
+        int ans = solveUsingTab(n , k , target);
+        return ans;
         
     }
 };
